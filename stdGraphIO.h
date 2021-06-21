@@ -20,12 +20,12 @@ public:
     StdGraphIO() = default;
     ~StdGraphIO() = default;
 
-    void load(Graph &g)
+    Graph load() override
     {
         throw GraphIOError("Not implemented");
     }
 
-    void dump(const Graph &g)
+    void dump(const Graph &g) override
     {
         using namespace std;
         cout << "Adjacency matrix:" << endl;

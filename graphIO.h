@@ -8,16 +8,16 @@
 #include <exception>
 #include <boost/graph/graph_traits.hpp>
 
-/**
- * Should be thrown by GraphKeeper class on errors.
+/** Should be thrown by GraphKeeper class on errors.
  */
 class GraphIOError : public std::runtime_error
 {
     using std::runtime_error::runtime_error;
 };
 
-/**
- * Interface to load/save graph
+/** Interface to load/save graph
+
+    Implementation must have load and dump functions.
  */
 template<class AdjacencyGraph>
 class GraphIO
@@ -25,7 +25,7 @@ class GraphIO
 public:
     virtual ~GraphIO() = default;
 
-    virtual void load(AdjacencyGraph &graph) = 0;
+    virtual AdjacencyGraph load() = 0;
     virtual void dump(const AdjacencyGraph &graph) = 0;
 };
 

@@ -48,7 +48,7 @@ int main(int argc, char *argv[])
         input = get_io(argv[1]);
         // Get output
         if (argc > 2) {
-            output = get_io(argv[1]);
+            output = get_io(argv[2]);
         }
         else {
             output = get_std_io();
@@ -56,6 +56,7 @@ int main(int argc, char *argv[])
     }
     catch (const std::runtime_error &err) {
         std::cout << "Failed to set up graph input/output: " << err.what() << std::endl;
+        return -1;
     }
 
     Graph g = input->load();

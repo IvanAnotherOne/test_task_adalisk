@@ -10,8 +10,7 @@
 
 #include "graphIO.h"
 
-/**
- * Class to load/save graphs from/to std streams.
+/** Class to input/print graph as adjacency matrix from/to std streams.
  */
 template<class Graph>
 class StdGraphIO: public GraphIO<Graph>

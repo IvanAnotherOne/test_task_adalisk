@@ -17,7 +17,7 @@ class GraphIOError : public std::runtime_error
 
 /** Interface to load/save graph
 
-    Implementation must have load and dump functions.
+    Implementation must define load and dump functions.
  */
 template<class AdjacencyGraph>
 class GraphIO

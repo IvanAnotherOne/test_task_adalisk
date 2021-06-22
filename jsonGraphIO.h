@@ -12,14 +12,19 @@
 #include <boost/json.hpp>
 #include <string>
 #include <fstream>
-////////////////////////////////////////////////////////////////////////////////////
-#include <iostream>
-////////////////////////////////////////////////////////////////////////////////////
 #include "graphIO.h"
 
-/** Class to load/save graphs from/to a .json file.
+/** Load/save graphs from/to a .json file
 
+    JSON must contain adjacency matrix of a graph and must be an object with set of key-value pairs
+    where key is string of [A-Z] symbols like "A", "B", ... and value is an array representing a
+    row of the adjacency matrix.
 
+    Example:
+    {
+      "A" : [1, 0],
+      "B" : [1, 1]
+    }
  */
 template<class Graph>
 class JSONGraphIO: public GraphIO<Graph>

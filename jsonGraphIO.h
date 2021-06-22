@@ -66,8 +66,24 @@ public:
         }
     };
 
-    void dump(const Graph &graph) override
-    {};
+    void dump(const Graph &g) override
+    {
+        using namespace boost;
+        std::string key = "A";
+        json::object json;
+        // Generate JSON structure from a graph
+        for (auto [ui, ui_end] = vertices(g); ui != ui_end; ++ui) {
+            json::array row;
+            for (auto [vi, vi_end] = vertices(g); vi != vi_end; ++vi) {
+                auto [ei, isPresent] = edge(*ui, *vi, g);
+                row.emplace_back(isPresent ? 1 : 0);
+            }
+            json.emplace(key, row);
+            key = next_key(key);
+        }
+        // Try to save generated JSON to a file
+        save_json(json);
+    };
 private:
     std::string filename_;
 
@@ -93,6 +109,50 @@ private:
         f.close();
         return jp.release();
     };
+
+    void save_json(boost::json::object json)
+    {
+        using namespace std;
+        // Try to open .json file for write
+        fstream f(filename_, ios::out|ios::trunc);
+        if (!f.is_open())
+            throw GraphIOError("Failed to open file " + filename_);
+        // Manually print JSON row by row for better view
+        char lastSym = '{'; // start of JSON object
+        for (const auto &item : json) {
+            f << lastSym << endl; // finish previous line
+            f << "    \"" << item.key() << "\" : " << item.value(); // format print
+            lastSym = ',';
+        }
+        f << endl << '}' << endl;
+    };
+
+    /** Get next key for JSON row
+
+        Account key as a string of symbols [A-Z]. Next key would be
+        string with increased last symbol by lexicographical order.
+     */
+    std::string next_key(std::string key)
+    {
+        bool cf = true;
+        for (auto it = key.rbegin(); cf && it != key.rend(); ++it) {
+            assert(*it >= 'A' && *it <= 'Z');
+            if (*it == 'Z') {
+                *it = 'A';
+                cf = true;
+            }
+            else {
+                *it += 1; // Set to next symbol
+                cf = false;
+            }
+        }
+        if (cf) {
+            return 'A' + key;
+        }
+        else {
+            return key;
+        }
+    }
 };
 
 #endif // _JSONGRAPHIO_H_

@@ -5,9 +5,9 @@ project(${PROJECT_NAME})
 
 # Boost needed
 set(BOOST_JSON_STANDALONE ON)
-find_package(Boost COMPONENTS graph REQUIRED)
+find_package(Boost COMPONENTS graph json REQUIRED)
 
-# Define calibration utility
+# Define executable
 add_executable(${PROJECT_NAME} main.cpp)
 # Use c++17
 target_compile_features(${PROJECT_NAME} PRIVATE cxx_std_17)
